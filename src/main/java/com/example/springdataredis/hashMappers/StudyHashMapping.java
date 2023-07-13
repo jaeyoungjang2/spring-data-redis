@@ -9,18 +9,22 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class HashMapping {
+public class StudyHashMapping {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private HashOperations<String, byte[], byte[]> hashOperations;
     HashMapper<Object, byte[], byte[]> mapper = new ObjectHashMapper();
 
-    public HashMapping(RedisTemplate<String, Object> redisTemplate) {
+    public StudyHashMapping(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
         this.hashOperations = redisTemplate.opsForHash();
     }
 
-    public void writeHash(String key, Person person) {
+    public void writeHash() {
+        String key = "1";
+        Person person = new Person();
+        person.setFirstname("Teddy");
+        person.setLastname("Bear");
         // Convert an object to a map that can be used with Redis hashes.
         Map<byte[], byte[]> mappedHash = mapper.toHash(person);
         hashOperations.putAll(key, mappedHash);
